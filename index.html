@@ -97,6 +97,8 @@
 			        $('#countdown').css('color', '#175282');
 			        if ((msLeft < 60000) && (msLeft >= 1000)) { // < 1 Minute
 			        	$('#countdown').css('color', '#b51803');
+			        }
+			        if ((msLeft < 61000) && msLeft >= 1000) {
 			        	if (playcounter == 0) {
 			        		$('#dingsound').get(0).play();
 			        		playcounter++;
