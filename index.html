@@ -33,31 +33,32 @@
 				$('#time').keyup(function(){
 					var timeentereddiv = document.querySelector('#timeentereddiv');
 					var timeentered = $("#time").val();
-
-					$('#timeentereddiv').slideDown(100);
+					
 					if (timeentered.length == 0) {
 						$('#timeentereddiv').hide();
+					} else {
+						if (timeentered.length > 3) {
+			    			var minutesentered = timeentered.substr(0, 2);
+			    			var secondsentered =  +timeentered.slice(-2);
+			    		} 
+			    		if (timeentered.length == 3) {
+			    			var minutesentered = timeentered.substr(0, 1);
+			    			var secondsentered =  +timeentered.slice(-2);
+			    		}
+			    		if (timeentered.length == 2) {
+			    			var minutesentered = 0;
+			    			var secondsentered =  +timeentered.slice(-2);
+			    		}
+			    		if (timeentered.length == 1) {
+			    			var minutesentered = 0;
+			    			var secondsentered =  +timeentered.slice(-1);
+			    		}
+			    		timeentereddiv.textContent = (minutesentered+ ' Minuten und '+secondsentered+ ' Sekunden');
+			    		$('#timeentereddiv').slideDown(100);
 					}
-		    		if (timeentered.length > 3) {
-		    			var minutesentered = timeentered.substr(0, 2);
-		    			var secondsentered =  +timeentered.slice(-2);
-		    		} 
-		    		if (timeentered.length == 3) {
-		    			var minutesentered = timeentered.substr(0, 1);
-		    			var secondsentered =  +timeentered.slice(-2);
-		    		}
-		    		if (timeentered.length == 2) {
-		    			var minutesentered = 0;
-		    			var secondsentered =  +timeentered.slice(-2);
-		    		}
-		    		if (timeentered.length == 1) {
-		    			var minutesentered = 0;
-		    			var secondsentered =  +timeentered.slice(-1);
-		    		}
-
-		    		timeentereddiv.textContent = (minutesentered+ ' Minuten und '+secondsentered+ ' Sekunden');
 				});
 			});
+
 			function uptimer(){
 		    	var uptimerdiv = document.querySelector('#uptimerdiv'),
 			    seconds = 0, minutes = 0, hours = 0,
