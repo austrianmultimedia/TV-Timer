@@ -1,0 +1,198 @@
+<!doctype html>
+	<!-- Developer: Raphael Klein - http://austrianmultimedia.at/ -->
+	<html lang="en">
+	<head>
+		<meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="css/style.css" rel="stylesheet">
+        <script type="text/javascript" src="js/jquery-1.12.3.min.js"></script>
+
+	</head>
+	<body>
+		<div id="countdown">&nbsp;</div>
+		<audio id="countdownsound" src="countdown.mp3" type="audio/mp3"></audio> 
+
+		<div id="timeblock">
+			<form id="timeform" name="timeform" action="" method="post">
+				<div class="formrow">
+					<input type="number" id="time" name="time" placeholder="00:00:00" autocomplete="off">
+					<input type="button" id="btimer" name="btimer" value="start"> 
+				</div>
+			</form>
+			<div id="timeentereddiv">&nbsp;</div>
+		</div>
+
+
+		<h1 id="ueberzug">Überzug</h1>
+		<div id="uptimerdiv">&nbsp;</div>
+
+		<script language="javascript" type="text/javascript">
+			$(document).ready(function() {
+				$('#time').focus();
+				$('#time').keyup(function(){
+					var timeentereddiv = document.querySelector('#timeentereddiv');
+					var timeentered = $("#time").val();
+
+					$('#timeentereddiv').slideDown(100);
+					if (timeentered.length == 0) {
+						$('#timeentereddiv').hide();
+					}
+		    		if (timeentered.length > 3) {
+		    			var minutesentered = timeentered.substr(0, 2);
+		    			var secondsentered =  +timeentered.slice(-2);
+		    		} 
+		    		if (timeentered.length == 3) {
+		    			var minutesentered = timeentered.substr(0, 1);
+		    			var secondsentered =  +timeentered.slice(-2);
+		    		}
+		    		if (timeentered.length == 2) {
+		    			var minutesentered = 0;
+		    			var secondsentered =  +timeentered.slice(-2);
+		    		}
+		    		if (timeentered.length == 1) {
+		    			var minutesentered = 0;
+		    			var secondsentered =  +timeentered.slice(-1);
+		    		}
+
+		    		timeentereddiv.textContent = (minutesentered+ ' Minuten und '+secondsentered+ ' Sekunden');
+				});
+			});
+			function uptimer(){
+		    	var uptimerdiv = document.querySelector('#uptimerdiv'),
+			    seconds = 0, minutes = 0, hours = 0,
+			    t;
+
+				function add() {
+				    seconds++;
+				    if (seconds >= 60) {
+				        seconds = 0;
+				        minutes++;
+				        if (minutes >= 60) {
+				            minutes = 0;
+				            hours++;
+				        }
+				    }
+				    
+				    uptimerdiv.textContent = (hours ? (hours > 9 ? hours : "0" + hours) : "00") + ":" + (minutes ? (minutes > 9 ? minutes : "0" + minutes) : "00") + ":" + (seconds > 9 ? seconds : "0" + seconds);
+
+				    timer();
+				}
+				function timer() {
+				    t = setTimeout(add, 1000);
+				}
+				timer();
+		    }; // uptimer
+
+		    function countdown( elementName, minutes, seconds ) {
+			    var element, endTime, hours, mins, msLeft, time;
+
+			    function twoDigits( n ) {
+			        return (n <= 9 ? "0" + n : n);
+			    }
+
+			    function updateTimer() {
+			        msLeft = endTime - (+new Date);
+			        $('#countdown').css('color', '#175282');
+			        if ((msLeft < 60000) && (msLeft >= 1000)) { // < 1 Minute
+			        	$('#countdown').css('color', '#b51803');
+			        }
+			        if (msLeft <= 11000) { // < 10 Sekunden
+			        	$('body').css('background', '#b51803');
+			        	$('#countdown').css('color', '#fff');
+
+						$('#countdownsound').get(0).play();
+			        }
+			        if (msLeft < 1000) { // Timer abgelaufen
+			        	$('#countdown').slideUp(500);
+			        	uptimer();
+			        	$('#uptimerdiv').slideDown(500);
+			    		$('#ueberzug').slideDown(500);
+			    		$('html,body').animate({scrollTop: $("#uptimerdiv").offset().top}, 1000);
+			        } else {
+			            time = new Date( msLeft );
+			            hours = time.getUTCHours();
+			            mins = time.getUTCMinutes();
+			            element.innerHTML = (hours ? hours + ':' + twoDigits( mins ) : mins) + ':' + twoDigits( time.getUTCSeconds() );
+			            setTimeout( updateTimer, time.getUTCMilliseconds() + 500 );
+			        }
+			    }
+
+			    element = document.getElementById( elementName );
+			    endTime = (+new Date) + 1000 * (60*minutes + seconds) + 500;
+			    updateTimer();
+			}
+
+		    $(function downtimer(){
+		    	$('#btimer').click(function() {
+					$('#countdown').slideDown(500);
+					$('#timeblock').slideUp(500);
+
+		    		var timeentered = $("#time").val();
+		    		if (timeentered.length > 3) {
+		    			var minutesentered = timeentered.substr(0, 2);
+		    			var secondsentered =  +timeentered.slice(-2);
+		    		} 
+		    		if (timeentered.length == 3) {
+		    			var minutesentered = timeentered.substr(0, 1);
+		    			var secondsentered =  +timeentered.slice(-2);
+		    		}
+		    		if (timeentered.length == 2) {
+		    			var minutesentered = 0;
+		    			var secondsentered =  +timeentered.slice(-2);
+		    		}
+		    		if (timeentered.length == 1) {
+		    			var minutesentered = 0;
+		    			var secondsentered =  +timeentered.slice(-1);
+		    		}
+
+					countdown("countdown", minutesentered, secondsentered);
+			    });
+			    $('#timeform').submit(function(event){
+			    	$('#countdown').slideDown(500);
+					$('#timeblock').slideUp(500);
+
+		    		var timeentered = $("#time").val();
+		    		if (timeentered.length > 3) {
+		    			var minutesentered = timeentered.substr(0, 2);
+		    			var secondsentered =  +timeentered.slice(-2);
+		    		} 
+		    		if (timeentered.length == 3) {
+		    			var minutesentered = timeentered.substr(0, 1);
+		    			var secondsentered =  +timeentered.slice(-2);
+		    		}
+		    		if (timeentered.length == 2) {
+		    			var minutesentered = 0;
+		    			var secondsentered =  +timeentered.slice(-2);
+		    		}
+		    		if (timeentered.length == 1) {
+		    			var minutesentered = 0;
+		    			var secondsentered =  +timeentered.slice(-1);
+		    		}
+
+					countdown("countdown", minutesentered, secondsentered);
+			    	return false;
+
+			    });
+		    }); //downtimer
+
+		    
+		</script>
+	</body>
+</html> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
