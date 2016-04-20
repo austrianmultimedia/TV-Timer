@@ -10,7 +10,8 @@
 	</head>
 	<body>
 		<div id="countdown">&nbsp;</div>
-		<audio id="countdownsound" src="countdown.mp3" type="audio/mp3"></audio> 
+		<audio id="dingsound" src="ding.wav" type="audio/wav"></audio> 
+		<audio id="countdownsound" src="cue.wav" type="audio/wav"></audio> 
 
 		<div id="timeblock">
 			<form id="timeform" name="timeform" action="" method="post">
@@ -84,6 +85,7 @@
 		    }; // uptimer
 
 		    function countdown( elementName, minutes, seconds ) {
+		    	var playcounter = 0;
 			    var element, endTime, hours, mins, msLeft, time;
 
 			    function twoDigits( n ) {
@@ -95,11 +97,14 @@
 			        $('#countdown').css('color', '#175282');
 			        if ((msLeft < 60000) && (msLeft >= 1000)) { // < 1 Minute
 			        	$('#countdown').css('color', '#b51803');
+			        	if (playcounter == 0) {
+			        		$('#dingsound').get(0).play();
+			        		playcounter++;
+			        	}
 			        }
 			        if (msLeft <= 11000) { // < 10 Sekunden
 			        	$('body').css('background', '#b51803');
 			        	$('#countdown').css('color', '#fff');
-
 						$('#countdownsound').get(0).play();
 			        }
 			        if (msLeft < 1000) { // Timer abgelaufen
