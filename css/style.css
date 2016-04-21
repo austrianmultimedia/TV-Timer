@@ -23,6 +23,14 @@ body{
 	font-size: 3em;
 	color: #fff;
 }
+#reloadimg {
+	display: none;
+	width: 30px;
+	float: left;
+}
+#reloadimg:hover{
+	cursor: pointer;
+}
 
 
 

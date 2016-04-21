@@ -9,6 +9,7 @@
 
 	</head>
 	<body>
+		<div id="reload"><img id="reloadimg" src="graphics/button_reload.png"></div>
 		<div id="countdown">&nbsp;</div>
 		<audio id="dingsound" src="ding.wav" type="audio/wav"></audio> 
 		<audio id="countdownsound" src="cue.wav" type="audio/wav"></audio> 
@@ -30,6 +31,19 @@
 		<script language="javascript" type="text/javascript">
 			$(document).ready(function() {
 				$('#time').focus();
+				
+				$('#reloadimg').hover(function () {
+			        this.src = 'graphics/button_reload_mouseover.png';
+			    }, function () {
+			        this.src = 'graphics/button_reload.png';
+			    });
+
+				$('#reloadimg').click(function(){
+					location.reload();
+					this.hide();
+				});
+
+
 				$('#time').keyup(function(){
 					var timeentereddiv = document.querySelector('#timeentereddiv');
 					var timeentered = $("#time").val();
@@ -156,6 +170,7 @@
 					countdown("countdown", minutesentered, secondsentered);
 			    });
 			    $('#timeform').submit(function(event){
+			    	$('#reloadimg').show(500);
 			    	$('#countdown').slideDown(500);
 					$('#timeblock').slideUp(500);
 
