@@ -9,7 +9,12 @@
 
 	</head>
 	<body>
-		<div id="reload"><img id="reloadimg" src="graphics/button_reload.png"></div>
+		<div id="button_reload"><img id="reloadimg" src="graphics/button_reload.png"></div>
+		<div id="button_info"><img id="infoimg" src="graphics/button_info.png"></div>
+		<div id="button_close"><img id="closeimg" src="graphics/button_close.png"></div>
+		<div id="info">
+			<h2>Eingabe</h2><p>Geben Sie die gewünschte Zeit im Format <strong>hh:mm:ss</strong> ein.<br /> z.B.: Wenn Sie 1 Minute und 10 Sekunden stoppen wollen, dann brauchen Sie nur <code>110</code> einzutippen!</p>
+		</div>
 		<div id="countdown">&nbsp;</div>
 		<audio id="dingsound" src="ding.wav" type="audio/wav"></audio> 
 		<audio id="countdownsound" src="cue.wav" type="audio/wav"></audio> 
@@ -17,7 +22,7 @@
 		<div id="timeblock">
 			<form id="timeform" name="timeform" action="" method="post">
 				<div class="formrow">
-					<input type="number" id="time" name="time" placeholder="00:00:00" autocomplete="off">
+					<input type="number" id="time" name="time" placeholder="00:00:00" autocomplete="off" required="required">
 					<input type="button" id="btimer" name="btimer" value="start"> 
 				</div>
 			</form>
@@ -32,16 +37,40 @@
 			$(document).ready(function() {
 				$('#time').focus();
 				
-				$('#reloadimg').hover(function () {
+				$('#reloadimg').hover(function() {
 			        this.src = 'graphics/button_reload_mouseover.png';
-			    }, function () {
+			    }, function() {
 			        this.src = 'graphics/button_reload.png';
 			    });
 
-				$('#reloadimg').click(function(){
+				$('#reloadimg').click(function() {
 					location.reload();
 					this.hide();
 				});
+				$('#infoimg').hover(function() {
+			        this.src = 'graphics/button_info_mouseover.png';
+			    }, function() {
+			        this.src = 'graphics/button_info.png';
+			    });
+
+				$('#infoimg').click(function() {
+					$('#infoimg').hide();
+					$('#closeimg').show();
+					$('#info').slideDown(500);
+					$('#time').focus();
+				})
+				$('#closeimg').hover(function() {
+			        this.src = 'graphics/button_close_mouseover.png';
+			    }, function() {
+			        this.src = 'graphics/button_close.png';
+			    });
+
+				$('#closeimg').click(function() {
+					$('#closeimg').hide();
+					$('#infoimg').show();
+					$('#info').slideUp(500);
+					$('#time').focus();
+				})
 
 
 				$('#time').keyup(function(){
@@ -142,34 +171,44 @@
 			    element = document.getElementById( elementName );
 			    endTime = (+new Date) + 1000 * (60*minutes + seconds) + 500;
 			    updateTimer();
-			}
+			} //countdown
 
 		    $(function downtimer(){
 		    	$('#btimer').click(function() {
-					$('#countdown').slideDown(500);
-					$('#timeblock').slideUp(500);
-
 		    		var timeentered = $("#time").val();
-		    		if (timeentered.length > 3) {
-		    			var minutesentered = timeentered.substr(0, 2);
-		    			var secondsentered =  +timeentered.slice(-2);
-		    		} 
-		    		if (timeentered.length == 3) {
-		    			var minutesentered = timeentered.substr(0, 1);
-		    			var secondsentered =  +timeentered.slice(-2);
-		    		}
-		    		if (timeentered.length == 2) {
-		    			var minutesentered = 0;
-		    			var secondsentered =  +timeentered.slice(-2);
-		    		}
-		    		if (timeentered.length == 1) {
-		    			var minutesentered = 0;
-		    			var secondsentered =  +timeentered.slice(-1);
-		    		}
+		    		if (timeentered != "") {
+		    			$('#info').slideUp(500);
+			    		$('#closeimg').hide();
+			    		$('#infoimg').show();
+			    		$('#reloadimg').show(500);
+						$('#countdown').slideDown(500);
+						$('#timeblock').slideUp(500);
 
-					countdown("countdown", minutesentered, secondsentered);
+			    		if (timeentered.length > 3) {
+			    			var minutesentered = timeentered.substr(0, 2);
+			    			var secondsentered =  +timeentered.slice(-2);
+			    		} 
+			    		if (timeentered.length == 3) {
+			    			var minutesentered = timeentered.substr(0, 1);
+			    			var secondsentered =  +timeentered.slice(-2);
+			    		}
+			    		if (timeentered.length == 2) {
+			    			var minutesentered = 0;
+			    			var secondsentered =  +timeentered.slice(-2);
+			    		}
+			    		if (timeentered.length == 1) {
+			    			var minutesentered = 0;
+			    			var secondsentered =  +timeentered.slice(-1);
+			    		}
+						countdown("countdown", minutesentered, secondsentered);
+		    		} else {
+		    			$('#time').focus();
+		    		}
 			    });
 			    $('#timeform').submit(function(event){
+			    	$('#info').slideUp(500);
+		    		$('#closeimg').hide();
+		    		$('#infoimg').show();
 			    	$('#reloadimg').show(500);
 			    	$('#countdown').slideDown(500);
 					$('#timeblock').slideUp(500);
