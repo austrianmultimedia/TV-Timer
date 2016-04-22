@@ -1,6 +1,6 @@
 # SIMPLE TV-Timer
 
-Als TV-Regisseur brauche ich immer wieder eine Countdown Clock. Da nicht auf allen Regieplätzen eine dementsprechene Hardware verfügbar ist, habe ich eine einfache Uhr für den Browser geschrieben.
+Als TV-Regisseur brauche ich immer wieder eine Countdown Clock. Da nicht auf allen Regieplätzen eine dementsprechende Hardware verfügbar ist, habe ich eine einfache Uhr für den Browser geschrieben.
 
 ## **Features**
 * Einfache Eingabe (Beispiel: **Gewünschte Stoppzeit**: 1 Minute und 10 Sekunden **Eingabe:** 110)
